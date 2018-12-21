@@ -32,6 +32,7 @@ describe('routes : topics', () => {
                 password: '123456',
                 role: 'admin'
             }).then((user) => {
+                console.log('************************THIS IS THE USER CREATED BEFORE EACH ADMIN SPEC: ' + user.role);
                 request.get({
                     url: 'http://localhost:3000/auth/fake',
                     form: {
@@ -79,6 +80,7 @@ describe('routes : topics', () => {
             it('should create a new topic and redirect', (done) => {
                 request.post(options, (err, res, body) => {
                     Topic.findOne({where: {title: 'blink-182 songs'}}).then((topic) => {
+                        console.log('******************THIS IS THE TOPIC WITHIN THE CREATE SPEC AFTER FINDONE: ' + topic);
                         expect(res.statusCode).toBe(303);
                         expect(topic.title).toBe('blink-182 songs');
                         expect(topic.description).toBe("What's your favorite blink-182 song?");
