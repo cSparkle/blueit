@@ -13,8 +13,6 @@ module.exports = {
     },
     new(req, res, next) {
         const authorized = new Authorizer(req.user).new();
-        console.log('************req.user IN THE NEW METHOD: ' + req.user)
-        console.log('************AUTHORIZED IN THE NEW METHOD: ' + authorized)
         if(authorized) {
             res.render('topics/new');
         } else {
@@ -23,9 +21,7 @@ module.exports = {
         }
     },
     create(req, res, next) {
-        console.log('************WHAT IS REQ.USER: ' + req.user);
         const authorized = new Authorizer(req.user).create();
-        console.log('************WHAT IS AUTHORIZED: ' + authorized);
         
         if(authorized) {
             let newTopic = {
