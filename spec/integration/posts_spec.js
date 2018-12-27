@@ -45,25 +45,6 @@ describe('routes : posts', () => {
 
     describe('guest user performing CRUD actions for Post', () => {
 
-        beforeEach((done) => {
-            User.create({
-                email: 'guest@guest.com',
-                password: 'guest',
-                role: 'guest'
-            }).then((user) => {
-                request.get({
-                    url: 'http://localhost:3000/auth/fake',
-                    form: {
-                        role: user.role,
-                        userId: user.id,
-                        email: user.email
-                    }
-                }, (err, res, body) => {
-                    done();
-                });
-            });
-        });
-
         describe('GET /topics/:topicId/posts/new', () => {
             it('should redirect to posts view', (done) => {
                 request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
@@ -108,7 +89,7 @@ describe('routes : posts', () => {
         describe('POST /topics/:topicId/posts/:id/destroy', () => {
             it('should not delete the post with the associated ID', (done) => {
                 expect(this.post.id).toBe(1);
-                request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+                request.get(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
                     Post.findById(1).then((post) => {
                         expect(err).toBeNull();
                         expect(post).not.toBeNull();
@@ -123,7 +104,6 @@ describe('routes : posts', () => {
                 request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
                     expect(err).toBeNull();
                     expect(body).not.toContain('Edit Post');
-                    expect(body).toContain('Snowball Fighting');
                     done();
                 });
             });
@@ -261,7 +241,6 @@ describe('routes : posts', () => {
                 request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
                     expect(err).toBeNull();
                     expect(body).not.toContain('Edit Post');
-                    expect(body).toContain('Snowball Fighting');
                     done();
                 });
             });
